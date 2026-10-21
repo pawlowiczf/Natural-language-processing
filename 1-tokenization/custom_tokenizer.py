@@ -1,3 +1,4 @@
+import json
 import re
 from collections import Counter
 
@@ -31,6 +32,24 @@ class WhitespaceTokenizer:
         for token, _ in counter.most_common(self.vocab_size - 1):
             self.token_to_id[token] = len(self.token_to_id)
         self.id_to_token = {i: t for t, i in self.token_to_id.items()}
+
+    def save(self, path):
+        # Persist the trained vocabulary so training does not have to be repeated
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(
+                {"vocab_size": self.vocab_size, "lowercase": self.lowercase, "token_to_id": self.token_to_id},
+                f,
+                ensure_ascii=False,
+            )
+
+    @classmethod
+    def load(cls, path):
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        tokenizer = cls(vocab_size=data["vocab_size"], lowercase=data["lowercase"])
+        tokenizer.token_to_id = data["token_to_id"]
+        tokenizer.id_to_token = {i: t for t, i in tokenizer.token_to_id.items()}
+        return tokenizer
 
     def encode(self, text):
         # Out-of-vocabulary tokens are mapped to the <UNK> id
