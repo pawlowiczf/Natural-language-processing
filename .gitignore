@@ -225,3 +225,6 @@ sp.vocab
 ws_tokenizer.json
 ids_*.npy
 runs/
+
+plwiki*.txt
+datasets/
