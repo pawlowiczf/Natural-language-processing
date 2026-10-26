@@ -14,7 +14,6 @@ dependencies = [
     "ruff>=0.17.1",
     "scikit-learn>=1.9.1",
     "sentencepiece>=0.2.2",
-    "speakleash>=0.3.51",
     "torch>=2.14.1",
     "transformers>=5.20.1",
 ]

@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# SentencePiece output
+sp.model
+sp.vocab
+ws_tokenizer.json
+ids_*.npy
+runs/
