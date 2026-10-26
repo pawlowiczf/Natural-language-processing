@@ -1,0 +1,19 @@
+[project]
+name = "natural-language-processing"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=5.1.0",
+    "ipykernel>=7.4.0",
+    "ipywidgets>=8.1.9",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "pre-commit>=4.7.0",
+    "ruff>=0.17.1",
+    "scikit-learn>=1.9.1",
+    "sentencepiece>=0.2.2",
+    "torch>=2.14.1",
+    "transformers>=5.20.1",
+]
