@@ -19,6 +19,7 @@ class TrainConfig:
     n_head: int = 6
     n_embd: int = 384
     batch_size: int = 16
+    micro_batch_size: int = 4  # batch_size is split into chunks of this size (gradient accumulation) to save GPU memory
     max_steps: int = 2000
     lr: float = 3e-4
     warmup_steps: int = 100
@@ -118,8 +119,8 @@ def evaluate(model, ids, config, device, n_chars):
     model.eval()
     n_blocks = (len(ids) - 1) // config.block_size
     total_loss, total_tokens = 0.0, 0
-    for start in range(0, n_blocks, config.batch_size):
-        blocks = range(start, min(start + config.batch_size, n_blocks))
+    for start in range(0, n_blocks, config.micro_batch_size):
+        blocks = range(start, min(start + config.micro_batch_size, n_blocks))
         x = torch.stack(
             [
                 torch.from_numpy(
@@ -178,8 +179,10 @@ def train(name, train_ids, val_ids, val_chars, config):
         for group in optimizer.param_groups:
             group["lr"] = get_lr(step, config)
         x = get_batch(train_ids, config, generator, device)
-        loss = lm_loss(model, x)
-        loss.backward()
+        # Gradient accumulation: same effective batch, but logits are only built for a few sequences at once
+        for chunk in x.split(config.micro_batch_size):
+            loss = lm_loss(model, chunk) * chunk.shape[0] / x.shape[0]
+            loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
         optimizer.zero_grad(set_to_none=True)
