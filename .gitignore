@@ -220,8 +220,8 @@ __marimo__/
 .streamlit/secrets.toml
 
 # SentencePiece output
-sp.model
-sp.vocab
-ws_tokenizer.json
-ids_*.npy
+1-tokenization/data/
 runs/
+
+plwiki*.txt
+datasets/

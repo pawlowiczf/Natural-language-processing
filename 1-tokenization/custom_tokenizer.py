@@ -37,7 +37,11 @@ class WhitespaceTokenizer:
         # Persist the trained vocabulary so training does not have to be repeated
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
-                {"vocab_size": self.vocab_size, "lowercase": self.lowercase, "token_to_id": self.token_to_id},
+                {
+                    "vocab_size": self.vocab_size,
+                    "lowercase": self.lowercase,
+                    "token_to_id": self.token_to_id,
+                },
                 f,
                 ensure_ascii=False,
             )
