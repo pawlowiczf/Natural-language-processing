@@ -225,3 +225,7 @@ runs/
 
 plwiki*.txt
 datasets/
+1-tokenization/*.npy
+1-tokenization/sp.model
+1-tokenization/sp.vocab
+1-tokenization/ws_tokenizer.json
