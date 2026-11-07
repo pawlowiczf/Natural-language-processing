@@ -229,3 +229,5 @@ datasets/
 1-tokenization/sp.model
 1-tokenization/sp.vocab
 1-tokenization/ws_tokenizer.json
+
+2-rnn-transformers/data/
