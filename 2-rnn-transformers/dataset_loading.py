@@ -54,6 +54,7 @@ def get_tokenizer() -> Tokenizer:
     if TOKENIZER_PATH.exists():
         return Tokenizer.from_file(str(TOKENIZER_PATH))
     DATA_DIR.mkdir(exist_ok=True)
+
     tok = Tokenizer(models.BPE())
     tok.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tok.decoder = decoders.ByteLevel()
@@ -64,6 +65,7 @@ def get_tokenizer() -> Tokenizer:
     )
     tok.train_from_iterator(_fineweb_texts(TOKENIZER_DOCS), trainer)
     tok.save(str(TOKENIZER_PATH))
+
     return tok
 
 
@@ -122,4 +124,4 @@ def get_batch(split, batch_size, block_size, device):
 
 
 if __name__ == "__main__":
-    prepare()  # python dataset_loading.py: builds tokenizer + all .bin files
+    prepare()

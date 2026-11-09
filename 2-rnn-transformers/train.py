@@ -81,7 +81,7 @@ def fit(
     grad_clip: float = 1.0,
     eval_every: int = 500,
     eval_batches: int = 50,
-    save_path: str | None = None,  # e.g. "data/gpt.pt"; None = do not save
+    save_path: str | None = None,  # e.g. "data/gpt.pt"; saved once at the end; None = do not save
 ) -> dict[str, list[float]]:
     model = model.to(device)
     opt = torch.optim.AdamW(
@@ -112,6 +112,7 @@ def fit(
         scaler.step(opt)
         scaler.update()
         scheduler.step()
+
         loss_sum += loss.item()
         n += 1
 
@@ -126,8 +127,8 @@ def fit(
                 f"(ppl {math.exp(val_loss):.1f}) | {time.time() - start:.0f} s"
             )
             loss_sum, n = 0.0, 0
-            if save_path:  # weights only, overwritten at every eval so an interrupted run keeps its progress
-                torch.save(model.state_dict(), save_path)
+    if save_path:  # weights only, saved once training has finished (an interrupted run leaves the old file intact)
+        torch.save(model.state_dict(), save_path)
     return history
 
 
