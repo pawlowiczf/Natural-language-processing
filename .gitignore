@@ -231,3 +231,5 @@ datasets/
 1-tokenization/ws_tokenizer.json
 
 2-rnn-transformers/data/
+
+3-fine-tuning/artifacts/
